@@ -3,259 +3,241 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#082519">
 <title>Criterion Hotel | One Dart, One Jackpot</title>
-
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+body{margin:0;background:#06170f;color:#fff;font-family:Arial,Helvetica,sans-serif}
+.stage{min-height:100vh;min-height:100dvh;padding:16px;background:radial-gradient(ellipse at 50% 25%,#22583c,#0a291c 65%,#04130c);border:5px solid #d8b34a;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.hotel{font-weight:900;letter-spacing:.28em;color:#e8c86c;font-size:clamp(15px,2vw,25px)}
+h1{margin:0;font-size:clamp(25px,4vw,52px);text-shadow:0 3px 12px #000}
+.subtitle{color:#e8c86c;letter-spacing:.12em;font-weight:700;font-size:clamp(13px,1.6vw,20px)}
+.layout{display:grid;grid-template-columns:minmax(240px,440px) minmax(280px,1fr);align-items:center;gap:24px;width:min(1100px,100%)}
+.board-wrap{position:relative;width:100%;max-width:440px;margin:auto}
+#dartboard{width:100%;height:auto;filter:drop-shadow(0 10px 15px #0009)}
+.panel{display:flex;flex-direction:column;align-items:center;gap:12px}
+.prize-label{font-size:clamp(16px,2vw,24px);font-weight:bold;color:#e8c86c;letter-spacing:.12em}
+.amount{font-size:clamp(58px,9vw,108px);font-weight:900;color:#ffe06c;text-shadow:0 0 20px #ad7800;line-height:1}
+.result-box{width:100%;min-height:145px;border:2px solid #b99436;border-radius:18px;background:#07190fdd;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:15px;box-shadow:inset 0 0 25px #0008}
+.result-label{font-size:14px;color:#c5b57d;letter-spacing:.2em;margin-bottom:9px}
+#result{font-size:clamp(34px,5vw,65px);font-weight:900;color:#ffe16b;text-shadow:0 0 20px #a77d11;overflow-wrap:anywhere}
+#detail{font-size:clamp(13px,1.6vw,18px);margin-top:8px;color:#f1e7b5}
+button{border:0;border-radius:12px;cursor:pointer;font-weight:900;touch-action:manipulation}
+#drawButton{width:100%;max-width:410px;padding:20px;background:linear-gradient(#ffe88c,#c99725);color:#11261a;font-size:clamp(21px,3vw,30px);box-shadow:0 6px 0 #765719}
+#drawButton:active{transform:translateY(3px);box-shadow:0 3px 0 #765719}
+#drawButton:disabled{opacity:.65;cursor:wait}
+.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.controls button{background:#173c2b;color:#f6dfa0;border:1px solid #a98c3d;padding:10px 16px;font-size:14px}
+.footer{color:#e8c86c;font-size:clamp(12px,1.5vw,18px);font-weight:bold;letter-spacing:.06em}
+.note{font-size:12px;color:#d2d4c7}
+.wildcard .result-box{background:radial-gradient(circle,#a87712,#422a07);border-color:#ffeaa0;animation:goldPulse .65s ease-in-out 4 alternate}
+.wildcard #result{color:white}
+@keyframes goldPulse{from{box-shadow:0 0 10px #f5c64d}to{box-shadow:0 0 50px #ffe580}}
+@media(max-width:720px){
+.stage{padding:12px;gap:8px}
+.layout{grid-template-columns:1fr;gap:10px}
+.board-wrap{max-width:min(58vw,270px)}
+.panel{gap:8px}
+.result-box{min-height:95px;padding:8px}
+#result{font-size:clamp(30px,7vw,50px)}
+.amount{font-size:clamp(50px,12vw,78px)}
+#drawButton{padding:14px}
 }
-
-body {
-  margin: 0;
-  background: #071b13;
-  color: white;
-  font-family: Arial, sans-serif;
-}
-
-.board {
-  min-height: 100vh;
-  padding: 35px 20px;
-  border: 6px solid #d4af37;
-  background: radial-gradient(
-    ellipse at center,
-    #245b3e 0%,
-    #102b20 65%,
-    #071b13 100%
-  );
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.hotel {
-  color: #d4af37;
-  font-size: clamp(20px, 3vw, 32px);
-  letter-spacing: 5px;
-  font-weight: bold;
-}
-
-h1 {
-  font-size: clamp(30px, 5vw, 65px);
-  margin: 20px 0;
-}
-
-.subtitle {
-  color: #d4af37;
-  font-size: clamp(18px, 2.5vw, 30px);
-  font-weight: bold;
-}
-
-.jackpot {
-  margin-top: 25px;
-  font-size: clamp(28px, 5vw, 55px);
-  color: #ffd700;
-  font-weight: bold;
-}
-
-.amount {
-  font-size: clamp(55px, 10vw, 120px);
-  color: #ffd700;
-  font-weight: bold;
-  text-shadow: 0 0 25px #b8860b;
-}
-
-.result {
-  min-height: 130px;
-  margin: 35px 0;
-  font-size: clamp(40px, 8vw, 100px);
-  font-weight: bold;
-  color: #ffd700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-shadow: 0 0 20px #b8860b;
-}
-
-button {
-  background: linear-gradient(#ffe866, #d4af37);
-  border: none;
-  border-radius: 15px;
-  padding: 22px 45px;
-  font-size: clamp(22px, 3vw, 35px);
-  font-weight: bold;
-  cursor: pointer;
-  color: #102b20;
-}
-
-button:disabled {
-  opacity: 0.6;
-}
-
-.info {
-  margin-top: 35px;
-  font-size: clamp(15px, 2vw, 23px);
-}
-
-.wildcard {
-  color: #ffd700;
-  font-size: clamp(18px, 2.5vw, 30px);
-  margin-top: 15px;
-}
-
-.footer {
-  margin-top: 25px;
-  font-size: clamp(17px, 2.5vw, 28px);
-  font-weight: bold;
-}
-
-.gold {
-  color: #ffd700;
+@media(max-height:650px) and (min-width:721px){
+.stage{gap:5px;padding:8px}
+.board-wrap{max-width:330px}
+.result-box{min-height:105px}
+.amount{font-size:65px}
 }
 </style>
 </head>
-
 <body>
+<main class="stage" id="stage">
+<div class="hotel">CRITERION HOTEL · FINCH HATTON</div>
+<h1>🎯 ONE DART, ONE JACKPOT 🎯</h1>
+<div class="subtitle">WEDNESDAY NIGHT JACKPOT DRAW</div>
 
-<main class="board">
-
-  <div class="hotel">
-    CRITERION HOTEL
-  </div>
-
-  <h1>🎯 ONE DART, ONE JACKPOT 🎯</h1>
-
-  <div class="subtitle">
-    WEDNESDAY JACKPOT DRAW
-  </div>
-
-  <div class="jackpot">
-    CURRENT JACKPOT
-  </div>
-
-  <div class="amount" id="jackpotAmount">
-    $250
-  </div>
-<div style="margin:15px 0;">
-  <button onclick="increaseJackpot()">+$100</button>
-  <button onclick="resetJackpot()">RESET JACKPOT</button>
+<div class="layout">
+<div class="board-wrap">
+<svg id="dartboard" viewBox="0 0 500 500" role="img" aria-label="Dartboard with highlighted drawn target">
+<circle cx="250" cy="250" r="244" fill="#171717" stroke="#c6a14b" stroke-width="5"/>
+<g id="segments"></g>
+<circle cx="250" cy="250" r="18" fill="#13784b" stroke="#f3e3ae" stroke-width="2"/>
+<circle id="bull" cx="250" cy="250" r="9" fill="#c52931"/>
+<g id="numbers"></g>
+</svg>
 </div>
-  <div class="result" id="result" aria-live="polite">
-    READY?
-  </div>
 
-  <button id="drawButton" type="button">
-    🎯 DRAW TARGET
-  </button>
+<div class="panel">
+<div class="prize-label">CURRENT JACKPOT</div>
+<div class="amount" id="jackpotAmount">$250</div>
 
-  <div class="info">
-    20 DOUBLES • 20 TRIPLES • BOTH BULLS
-  </div>
+<div class="controls">
+<button type="button" id="increaseButton">+ $100</button>
+<button type="button" id="resetButton">RESET JACKPOT</button>
+</div>
 
-  <div class="wildcard">
-    ⭐ ONE GOLDEN WILDCARD ⭐
-  </div>
+<div class="result-box">
+<div class="result-label">YOUR TARGET</div>
+<div id="result" aria-live="polite">READY?</div>
+<div id="detail">One dart. One chance.</div>
+</div>
 
-  <div class="footer">
-    ONE DART. ONE CHANCE.
-    <span class="gold">WIN THE JACKPOT!</span>
-  </div>
+<button type="button" id="drawButton">🎯 DRAW TARGET</button>
+</div>
+</div>
 
+<div class="footer">20 DOUBLES · 20 TRIPLES · OUTER BULL · BULLSEYE</div>
+<div class="footer">⭐ ONE GOLDEN WILDCARD ⭐</div>
+<div class="note">Jackpot increases by $100 when not won · Golden Wildcard: player chooses any target</div>
 </main>
 
 <script>
-const targets = [];
+"use strict";
 
-for (let i = 1; i <= 20; i++) {
-  targets.push("DOUBLE " + i);
-  targets.push("TRIPLE " + i);
+const order=[20,1,18,4,13,6,10,15,2,17,3,19,7,16,8,11,14,9,12,5];
+const NS="http://www.w3.org/2000/svg";
+const segments=document.getElementById("segments");
+const numbers=document.getElementById("numbers");
+const stage=document.getElementById("stage");
+const result=document.getElementById("result");
+const detail=document.getElementById("detail");
+const drawButton=document.getElementById("drawButton");
+const jackpotDisplay=document.getElementById("jackpotAmount");
+
+function point(r,a){
+ const t=a*Math.PI/180;
+ return [250+r*Math.sin(t),250-r*Math.cos(t)];
+}
+function ringPath(inner,outer,a,b){
+ const p1=point(outer,a),p2=point(outer,b);
+ const p3=point(inner,b),p4=point(inner,a);
+ return `M${p1.join(",")} A${outer},${outer} 0 0 1 ${p2.join(",")} L${p3.join(",")} A${inner},${inner} 0 0 0 ${p4.join(",")} Z`;
+}
+function svgEl(tag,attrs,parent){
+ const el=document.createElementNS(NS,tag);
+ Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,v));
+ parent.appendChild(el);
+ return el;
 }
 
-targets.push("OUTER BULL");
-targets.push("BULLSEYE");
-targets.push("⭐ GOLDEN WILDCARD ⭐");
+const highlights={};
+for(let i=0;i<20;i++){
+ const n=order[i],a=i*18-9,b=i*18+9;
+ const dark=i%2===0;
+ const rings=[
+  {type:"single",inner:20,outer:138,color:dark?"#252525":"#e6ddc3"},
+  {type:"triple",inner:138,outer:155,color:dark?"#b82734":"#16834f"},
+  {type:"single",inner:155,outer:205,color:dark?"#252525":"#e6ddc3"},
+  {type:"double",inner:205,outer:224,color:dark?"#b82734":"#16834f"}
+ ];
+ for(const r of rings){
+  const el=svgEl("path",{d:ringPath(r.inner,r.outer,a,b),fill:r.color,stroke:"#777", "stroke-width":".7"},segments);
+  if(r.type==="double")highlights["DOUBLE "+n]=el;
+  if(r.type==="triple")highlights["TRIPLE "+n]=el;
+ }
+ const p=point(236,i*18);
+ const t=svgEl("text",{x:p[0],y:p[1]+6,fill:"#fff","font-size":"19","font-weight":"bold","text-anchor":"middle"},numbers);
+ t.textContent=n;
+}
 
-const button = document.getElementById("drawButton");
-const result = document.getElementById("result");
+const targets=[];
+for(let n=1;n<=20;n++){
+ targets.push("DOUBLE "+n);
+ targets.push("TRIPLE "+n);
+}
+targets.push("OUTER BULL","BULLSEYE","GOLDEN WILDCARD");
 
-let drawing = false;
+function randomIndex(max){
+ if(window.crypto && window.crypto.getRandomValues){
+  const limit=Math.floor(4294967296/max)*max;
+  const arr=new Uint32Array(1);
+  do{window.crypto.getRandomValues(arr)}while(arr[0]>=limit);
+  return arr[0]%max;
+ }
+ return Math.floor(Math.random()*max);
+}
 
-function randomIndex(max) {
-  if (window.crypto && window.crypto.getRandomValues) {
-    const limit = Math.floor(4294967296 / max) * max;
-    const array = new Uint32Array(1);
-    let number;
+function clearHighlights(){
+ Object.values(highlights).forEach(el=>{
+  el.removeAttribute("stroke");
+  el.setAttribute("stroke","#777");
+  el.setAttribute("stroke-width",".7");
+  el.style.filter="";
+ });
+ document.getElementById("bull").setAttribute("fill","#c52931");
+ stage.classList.remove("wildcard");
+}
 
-    do {
-      window.crypto.getRandomValues(array);
-      number = array[0];
-    } while (number >= limit);
+function showTarget(target,final){
+ clearHighlights();
+ result.textContent=target;
+ detail.textContent=final?"ONE DART TO HIT THIS TARGET":"DRAWING...";
+ if(!final)return;
+ if(highlights[target]){
+  const el=highlights[target];
+  el.setAttribute("stroke","#fff28b");
+  el.setAttribute("stroke-width","5");
+  el.style.filter="drop-shadow(0 0 9px #ffe96b)";
+ }else if(target==="BULLSEYE"){
+  document.getElementById("bull").setAttribute("fill","#ffeb68");
+ }else if(target==="OUTER BULL"){
+  document.querySelector("#dartboard circle[r='18']").setAttribute("stroke","#ffe96b");
+ }else{
+  stage.classList.add("wildcard");
+  detail.textContent="⭐ PLAYER CHOOSES ANY TARGET ⭐";
+ }
+}
 
-    return number % max;
+let drawing=false;
+drawButton.addEventListener("click",()=>{
+ if(drawing)return;
+ drawing=true;
+ drawButton.disabled=true;
+ drawButton.textContent="DRAWING...";
+ let count=0;
+ const total=38;
+ const finalTarget=targets[randomIndex(targets.length)];
+ function tick(){
+  count++;
+  const target=count===total?finalTarget:targets[randomIndex(targets.length)];
+  showTarget(target,count===total);
+  if(count<total){
+   const progress=count/total;
+   const delay=progress<.65?65:65+Math.pow((progress-.65)/.35,2)*270;
+   setTimeout(tick,delay);
+  }else{
+   drawing=false;
+   drawButton.disabled=false;
+   drawButton.textContent="🎯 DRAW AGAIN";
   }
+ }
+ tick();
+});
 
-  return Math.floor(Math.random() * max);
+const STORAGE_KEY="criterionJackpot";
+let jackpot=250;
+try{
+ const saved=Number(localStorage.getItem(STORAGE_KEY));
+ if(Number.isFinite(saved)&&saved>=250&&saved%50===0)jackpot=saved;
+}catch(e){}
+function updateJackpot(){
+ jackpotDisplay.textContent="$"+jackpot.toLocaleString("en-AU");
+ try{localStorage.setItem(STORAGE_KEY,String(jackpot))}catch(e){}
 }
-
-function drawTarget() {
-  if (drawing) return;
-
-  drawing = true;
-  button.disabled = true;
-  button.textContent = "DRAWING...";
-
-  let count = 0;
-
-  const animation = setInterval(function() {
-    result.textContent = targets[randomIndex(targets.length)];
-    count++;
-
-    if (count >= 35) {
-      clearInterval(animation);
-
-      const finalTarget = targets[randomIndex(targets.length)];
-      result.textContent = finalTarget;
-
-      if (finalTarget.includes("WILDCARD")) {
-        result.style.color = "#ffffff";
-        result.style.textShadow = "0 0 35px #ffd700";
-      } else {
-        result.style.color = "#ffd700";
-        result.style.textShadow = "0 0 20px #b8860b";
-      }
-
-      button.disabled = false;
-      button.textContent = "🎯 DRAW AGAIN";
-      drawing = false;
-    }
-  }, 100);
-}
-
-button.addEventListener("click", drawTarget);
-let jackpot = Number(localStorage.getItem("criterionJackpot")) || 250;
-
-const jackpotDisplay = document.getElementById("jackpotAmount");
-
-function updateJackpot() {
-  jackpotDisplay.textContent = "$" + jackpot.toLocaleString("en-AU");
-  localStorage.setItem("criterionJackpot", jackpot);
-}
-
-function increaseJackpot() {
-  jackpot += 100;
+document.getElementById("increaseButton").addEventListener("click",()=>{
+ if(drawing)return;
+ jackpot+=100;
+ updateJackpot();
+});
+document.getElementById("resetButton").addEventListener("click",()=>{
+ if(drawing)return;
+ if(confirm("Reset jackpot to $250?")){
+  jackpot=250;
   updateJackpot();
-}
-
-function resetJackpot() {
-  if (confirm("Reset jackpot to $250?")) {
-    jackpot = 250;
-    updateJackpot();
-  }
-}
-
-updateJackpot();  
+ }
+});
+updateJackpot();
 </script>
-
 </body>
 </html>
