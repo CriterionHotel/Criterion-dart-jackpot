@@ -233,6 +233,28 @@ function drawTarget() {
 }
 
 button.addEventListener("click", drawTarget);
+let jackpot = Number(localStorage.getItem("criterionJackpot")) || 250;
+
+const jackpotDisplay = document.getElementById("jackpotAmount");
+
+function updateJackpot() {
+  jackpotDisplay.textContent = "$" + jackpot.toLocaleString("en-AU");
+  localStorage.setItem("criterionJackpot", jackpot);
+}
+
+function increaseJackpot() {
+  jackpot += 100;
+  updateJackpot();
+}
+
+function resetJackpot() {
+  if (confirm("Reset jackpot to $250?")) {
+    jackpot = 250;
+    updateJackpot();
+  }
+}
+
+updateJackpot();  
 </script>
 
 </body>
