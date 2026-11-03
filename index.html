@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Criterion Hotel | One Dart, One Jackpot</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #071b13;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.board {
+  min-height: 100vh;
+  padding: 35px 20px;
+  border: 6px solid #d4af37;
+  background: radial-gradient(
+    ellipse at center,
+    #245b3e 0%,
+    #102b20 65%,
+    #071b13 100%
+  );
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.hotel {
+  color: #d4af37;
+  font-size: clamp(20px, 3vw, 32px);
+  letter-spacing: 5px;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: clamp(30px, 5vw, 65px);
+  margin: 20px 0;
+}
+
+.subtitle {
+  color: #d4af37;
+  font-size: clamp(18px, 2.5vw, 30px);
+  font-weight: bold;
+}
+
+.jackpot {
+  margin-top: 25px;
+  font-size: clamp(28px, 5vw, 55px);
+  color: #ffd700;
+  font-weight: bold;
+}
+
+.amount {
+  font-size: clamp(55px, 10vw, 120px);
+  color: #ffd700;
+  font-weight: bold;
+  text-shadow: 0 0 25px #b8860b;
+}
+
+.result {
+  min-height: 130px;
+  margin: 35px 0;
+  font-size: clamp(40px, 8vw, 100px);
+  font-weight: bold;
+  color: #ffd700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 0 0 20px #b8860b;
+}
+
+button {
+  background: linear-gradient(#ffe866, #d4af37);
+  border: none;
+  border-radius: 15px;
+  padding: 22px 45px;
+  font-size: clamp(22px, 3vw, 35px);
+  font-weight: bold;
+  cursor: pointer;
+  color: #102b20;
+}
+
+button:disabled {
+  opacity: 0.6;
+}
+
+.info {
+  margin-top: 35px;
+  font-size: clamp(15px, 2vw, 23px);
+}
+
+.wildcard {
+  color: #ffd700;
+  font-size: clamp(18px, 2.5vw, 30px);
+  margin-top: 15px;
+}
+
+.footer {
+  margin-top: 25px;
+  font-size: clamp(17px, 2.5vw, 28px);
+  font-weight: bold;
+}
+
+.gold {
+  color: #ffd700;
+}
+</style>
+</head>
+
+<body>
+
+<main class="board">
+
+  <div class="hotel">
+    CRITERION HOTEL
+  </div>
+
+  <h1>🎯 ONE DART, ONE JACKPOT 🎯</h1>
+
+  <div class="subtitle">
+    WEDNESDAY JACKPOT DRAW
+  </div>
+
+  <div class="jackpot">
+    CURRENT JACKPOT
+  </div>
+
+  <div class="amount" id="jackpotAmount">
+    $100
+  </div>
+
+  <div class="result" id="result" aria-live="polite">
+    READY?
+  </div>
+
+  <button id="drawButton" type="button">
+    🎯 DRAW TARGET
+  </button>
+
+  <div class="info">
+    20 DOUBLES • 20 TRIPLES • BOTH BULLS
+  </div>
+
+  <div class="wildcard">
+    ⭐ ONE GOLDEN WILDCARD ⭐
+  </div>
+
+  <div class="footer">
+    ONE DART. ONE CHANCE.
+    <span class="gold">WIN THE JACKPOT!</span>
+  </div>
+
+</main>
+
+<script>
+const targets = [];
+
+for (let i = 1; i <= 20; i++) {
+  targets.push("DOUBLE " + i);
+  targets.push("TRIPLE " + i);
+}
+
+targets.push("OUTER BULL");
+targets.push("BULLSEYE");
+targets.push("⭐ GOLDEN WILDCARD ⭐");
+
+const button = document.getElementById("drawButton");
+const result = document.getElementById("result");
+
+let drawing = false;
+
+function randomIndex(max) {
+  if (window.crypto && window.crypto.getRandomValues) {
+    const limit = Math.floor(4294967296 / max) * max;
+    const array = new Uint32Array(1);
+    let number;
+
+    do {
+      window.crypto.getRandomValues(array);
+      number = array[0];
+    } while (number >= limit);
+
+    return number % max;
+  }
+
+  return Math.floor(Math.random() * max);
+}
+
+function drawTarget() {
+  if (drawing) return;
+
+  drawing = true;
+  button.disabled = true;
+  button.textContent = "DRAWING...";
+
+  let count = 0;
+
+  const animation = setInterval(function() {
+    result.textContent = targets[randomIndex(targets.length)];
+    count++;
+
+    if (count >= 35) {
+      clearInterval(animation);
+
+      const finalTarget = targets[randomIndex(targets.length)];
+      result.textContent = finalTarget;
+
+      if (finalTarget.includes("WILDCARD")) {
+        result.style.color = "#ffffff";
+        result.style.textShadow = "0 0 35px #ffd700";
+      } else {
+        result.style.color = "#ffd700";
+        result.style.textShadow = "0 0 20px #b8860b";
+      }
+
+      button.disabled = false;
+      button.textContent = "🎯 DRAW AGAIN";
+      drawing = false;
+    }
+  }, 100);
+}
+
+button.addEventListener("click", drawTarget);
+</script>
+
+</body>
+</html>
